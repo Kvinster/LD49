@@ -28,7 +28,7 @@ namespace LD49.Behaviour {
 		}
 
 		void Update() {
-			if ( !_player ) {
+			if ( !_player || !_player.IsGrabbingBomb ) {
 				if ( _timer > 0f ) {
 					_timer = Mathf.Max(0f, _timer - Time.deltaTime);
 					SetValue(_timer / WinTime);
