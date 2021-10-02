@@ -55,9 +55,10 @@ namespace LD49.Behaviour {
 
 			_timerText.gameObject.SetActive(false);
 		}
+		
 		private void OnCollisionEnter2D(Collision2D other)
 		{
-			if (other.gameObject.CompareTag("Platform"))
+			if (_isActive && other.gameObject.CompareTag("Platform"))
 			{
 				transform.parent = other.transform;
 			}

@@ -8,12 +8,16 @@ namespace LD49.Manager {
 		[Header("Dependencies")]
 		public Bomb Bomb;
 		public WinArea WinArea;
+		public FallTrigger FallTrigger;
 		[Space]
 		public WinWindow WinWindow;
 		public LoseWindow LoseWindow;
 
 		void OnDisable() {
 			Time.timeScale = 1f;
+			Bomb.OnBlowUp       -= OnBombBlownUp;
+			WinArea.OnCompleted -= OnLevelCompleted;
+			FallTrigger.LevelFailed -= OnBombBlownUp;
 		}
 
 		void Start() {
@@ -23,6 +27,7 @@ namespace LD49.Manager {
 			}
 			Bomb.OnBlowUp       += OnBombBlownUp;
 			WinArea.OnCompleted += OnLevelCompleted;
+			FallTrigger.LevelFailed += OnBombBlownUp;
 
 			WinWindow.Hide();
 			LoseWindow.Hide();
