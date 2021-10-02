@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace LD49.Behaviour
 {
@@ -10,14 +11,21 @@ namespace LD49.Behaviour
         private float _speed = 2f;
 
         private bool _backwardMovement;
-        
+        private float _startPositionY;
+
+        private void Awake()
+        {
+            _startPositionY = transform.position.y;
+        }
+
         private void Update()
         {
-            if (transform.position.y > _distance)
+            if (transform.position.y > _startPositionY + _distance)
             {
                 _backwardMovement = false;
             }
-            else if (transform.position.y < -_distance)
+            
+            else if (transform.position.y < _startPositionY - _distance)
             {
                 _backwardMovement = true;
             }
