@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -720,6 +720,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Bomb: {fileID: 425464005}
   WinArea: {fileID: 175506547}
+  FallTrigger: {fileID: 1007989012}
   WinWindow: {fileID: 203475376}
   LoseWindow: {fileID: 203475375}
 --- !u!4 &284093785
@@ -1659,6 +1660,7 @@ Transform:
   - {fileID: 512744069}
   - {fileID: 862927095}
   - {fileID: 1092623016}
+  - {fileID: 1007989011}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1770,6 +1772,93 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &1007989010
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 832645624}
+    m_Modifications:
+    - target: {fileID: 7975008216868545908, guid: 48c0eacf94c887e42a89d39f25387b65,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975008216868545908, guid: 48c0eacf94c887e42a89d39f25387b65,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 19.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975008216868545908, guid: 48c0eacf94c887e42a89d39f25387b65,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -19.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975008216868545908, guid: 48c0eacf94c887e42a89d39f25387b65,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975008216868545908, guid: 48c0eacf94c887e42a89d39f25387b65,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975008216868545908, guid: 48c0eacf94c887e42a89d39f25387b65,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975008216868545908, guid: 48c0eacf94c887e42a89d39f25387b65,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975008216868545908, guid: 48c0eacf94c887e42a89d39f25387b65,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975008216868545908, guid: 48c0eacf94c887e42a89d39f25387b65,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975008216868545908, guid: 48c0eacf94c887e42a89d39f25387b65,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975008216868545908, guid: 48c0eacf94c887e42a89d39f25387b65,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7975008216868545909, guid: 48c0eacf94c887e42a89d39f25387b65,
+        type: 3}
+      propertyPath: m_Name
+      value: FallTrigger
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 48c0eacf94c887e42a89d39f25387b65, type: 3}
+--- !u!4 &1007989011 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7975008216868545908, guid: 48c0eacf94c887e42a89d39f25387b65,
+    type: 3}
+  m_PrefabInstance: {fileID: 1007989010}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1007989012 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7975008216868545911, guid: 48c0eacf94c887e42a89d39f25387b65,
+    type: 3}
+  m_PrefabInstance: {fileID: 1007989010}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db4dbc2d7a0298499a8942e79b0727c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1078608988
 PrefabInstance:
   m_ObjectHideFlags: 0
