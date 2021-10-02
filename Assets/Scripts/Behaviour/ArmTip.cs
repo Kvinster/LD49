@@ -64,6 +64,11 @@ namespace LD49.Behaviour {
 				var overlap = Physics2D.OverlapCircleNonAlloc(Rigidbody.position, GrabRadius, _overlapChecks, GrabLayerMask);
 				for ( var i = 0; i < overlap; ++i ) {
 					var collider = _overlapChecks[i];
+					var bomb     = collider.GetComponent<Bomb>();
+					if ( !bomb ) {
+						continue;
+					}
+					bomb.BombDeactivated();
 					var rb       = collider.attachedRigidbody;
 					if ( rb ) {
 						_grabJoint               = gameObject.AddComponent<FixedJoint2D>();
@@ -76,7 +81,9 @@ namespace LD49.Behaviour {
 				}
 			} else {
 				if ( _grabJoint ) {
-					var rb = _grabJoint.connectedBody;
+					var bomb = _grabJoint.connectedBody.GetComponent<Bomb>();
+					bomb.ActiveBomb();
+					var rb   = _grabJoint.connectedBody;
 					if ( rb ) {
 						rb.gravityScale = 1f;
 						rb.mass         = _grabbedRbMass;
