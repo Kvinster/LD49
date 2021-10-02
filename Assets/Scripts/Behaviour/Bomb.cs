@@ -16,6 +16,10 @@ namespace LD49.Behaviour
         private float _explosionTime;
         private bool _isActive;
 
+        void Start() {
+            ActiveBomb();
+        }
+
         private void Update()
         {
             if (!_isActive)
