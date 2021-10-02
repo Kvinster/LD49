@@ -31,7 +31,32 @@ ExportedObj/
 *.csproj
 *.unityproj
 *.sln
+
+# Rider
+# https://github.com/JetBrains/resharper-rider-samples/blob/master/.gitignore
+.idea/
+Assets/Plugins/Editor/JetBrains*
 *.suo
+*.user
+.vs/
+[Bb]in/
+[Oo]bj/
+
+# OS specific
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Project
+
+# Common
+**/Temp/*
+**/Builds/*
+**/Library/*
+**/obj/*
+*.csproj
+*.sln
+
 *.tmp
 *.user
 *.userprefs
@@ -57,4 +82,3 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
-
