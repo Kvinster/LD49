@@ -18,6 +18,8 @@ namespace LD49.Behaviour {
 		bool  _isJumping;
 		float _jumpTimer;
 
+		public bool IsGrabbingBomb => ArmTip.IsGrabbing;
+
 		void FixedUpdate() {
 			TryMove();
 			TryJump();
