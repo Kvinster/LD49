@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+
+using TMPro;
 
 namespace LD49.Behaviour
 {
@@ -8,7 +9,7 @@ namespace LD49.Behaviour
         [SerializeField]
         private float _startExplosionTime;
         [SerializeField]
-        private Text _timerText;
+        private TMP_Text _timerText;
         [SerializeField]
         private SpriteRenderer _renderer;
 
