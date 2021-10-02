@@ -28,10 +28,18 @@ namespace LD49.Behaviour
             }
 
             _explosionTime -= Time.deltaTime;
+            if ( _explosionTime <= 0f ) {
+                BlowUp();
+                return;
+            }
             _timerText.text = _explosionTime.ToString("F2");
 
              var progress = _explosionTime / _startExplosionTime;
              _renderer.color = new Color(1, progress, progress);
+        }
+
+        void BlowUp() {
+            Destroy(gameObject);
         }
 
         public void ActiveBomb()
