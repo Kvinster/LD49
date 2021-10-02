@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Resources.Scripts
+namespace LD49.Behaviour
 {
     public class Bomb : MonoBehaviour
     {
@@ -24,7 +24,7 @@ namespace Resources.Scripts
 
             _explosionTime -= Time.deltaTime;
             _timerText.text = _explosionTime.ToString("F2");
-            
+
              var progress = _explosionTime / _startExplosionTime;
              _renderer.color = new Color(1, progress, progress);
         }
@@ -35,12 +35,12 @@ namespace Resources.Scripts
             _explosionTime = _startExplosionTime;
             _isActive = true;
         }
-        
+
         public void BombDeactivated()
         {
             _isActive = false;
             _renderer.color = new Color(1, 1, 1);
-            
+
             _timerText.gameObject.SetActive(false);
         }
     }
