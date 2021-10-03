@@ -1,8 +1,7 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-using System;
+using LD49.Service;
 
 namespace LD49.Behaviour.UI {
 	public sealed class WinWindow : MonoBehaviour {
@@ -11,13 +10,14 @@ namespace LD49.Behaviour.UI {
 		public GameObject NextLevelButtonRoot;
 		public Button     NextLevelButton;
 
-		void Start() {
-			MenuButton.onClick.AddListener(OnMenuClick);
-			NextLevelButton.onClick.AddListener(OnNextLevelClick);
-		}
+		bool _isInit;
+
+		int _levelIndex;
 
 		public void Show() {
-			var hasNextLevel = false; // TODO: check if there's next level
+			TryInit();
+
+			var hasNextLevel = SceneService.CheckLevelExists(_levelIndex + 1);
 			GameCompletedRoot.SetActive(!hasNextLevel);
 			NextLevelButtonRoot.SetActive(hasNextLevel);
 
@@ -28,13 +28,25 @@ namespace LD49.Behaviour.UI {
 			gameObject.SetActive(false);
 		}
 
+		void TryInit() {
+			if ( _isInit ) {
+				return;
+			}
+
+			MenuButton.onClick.AddListener(OnMenuClick);
+			NextLevelButton.onClick.AddListener(OnNextLevelClick);
+
+			_levelIndex = SceneService.GetLevelIndexFromSceneName();
+
+			_isInit = true;
+		}
+
 		void OnMenuClick() {
-			SceneManager.LoadScene("MainMenu");
+			SceneService.LoadMainMenu();
 		}
 
 		void OnNextLevelClick() {
-			// TODO: load next level
-			throw new NotImplementedException();
+			SceneService.LoadLevel(_levelIndex + 1);
 		}
 	}
 }

@@ -1,19 +1,19 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MainMenu : MonoBehaviour
-{
-    [SerializeField]
-    private Button _startButton;
+using LD49.Service;
 
-    private void Awake()
-    {
-        _startButton.onClick.AddListener(OnStartButton);
-    }
+namespace LD49.Behaviour.UI {
+	public class MainMenu : MonoBehaviour {
+		[SerializeField]
+		private Button _startButton;
 
-    private void OnStartButton()
-    {
-        SceneManager.LoadScene(1);
-    }
+		private void Awake() {
+			_startButton.onClick.AddListener(OnStartButton);
+		}
+
+		private void OnStartButton() {
+			SceneService.LoadLevel(0);
+		}
+	}
 }

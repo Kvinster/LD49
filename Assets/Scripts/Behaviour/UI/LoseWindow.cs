@@ -1,18 +1,17 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+using LD49.Service;
 
 namespace LD49.Behaviour.UI {
 	public sealed class LoseWindow : MonoBehaviour {
 		public Button MenuButton;
 		public Button RestartButton;
 
-		void Start() {
-			MenuButton.onClick.AddListener(OnMenuClick);
-			RestartButton.onClick.AddListener(OnRestartClick);
-		}
+		bool _isInit;
 
 		public void Show() {
+			TryInit();
 			gameObject.SetActive(true);
 		}
 
@@ -20,12 +19,23 @@ namespace LD49.Behaviour.UI {
 			gameObject.SetActive(false);
 		}
 
+		void TryInit() {
+			if ( _isInit ) {
+				return;
+			}
+
+			MenuButton.onClick.AddListener(OnMenuClick);
+			RestartButton.onClick.AddListener(OnRestartClick);
+
+			_isInit = true;
+		}
+
 		void OnMenuClick() {
-			SceneManager.LoadScene("MainMenu");
+			SceneService.LoadMainMenu();
 		}
 
 		void OnRestartClick() {
-			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+			SceneService.LoadLevel(SceneService.GetLevelIndexFromSceneName());
 		}
 	}
 }
