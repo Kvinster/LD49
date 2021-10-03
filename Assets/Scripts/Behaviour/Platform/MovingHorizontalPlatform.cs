@@ -10,14 +10,20 @@ namespace LD49.Behaviour
         private float _speed = 2f;
 
         private bool _backwardMovement;
+        private float _startPositionX;
+        
+        private void Awake()
+        {
+            _startPositionX = transform.position.x;
+        }
         
         private void Update()
         {
-            if (transform.position.x > _distance)
+            if (transform.position.x > _startPositionX + _distance)
             {
                 _backwardMovement = false;
             }
-            else if (transform.position.x < -_distance)
+            else if (transform.position.x < _startPositionX -_distance)
             {
                 _backwardMovement = true;
             }

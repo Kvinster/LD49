@@ -5,7 +5,10 @@ using LD49.Manager;
 using TMPro;
 
 namespace LD49.Behaviour {
-	public class Bomb : MonoBehaviour {
+	public class Bomb : MonoBehaviour
+	{
+		public bool IsActive => _isActive;
+		
 		[SerializeField]
 		private float _startExplosionTime;
 		[SerializeField]
@@ -52,22 +55,6 @@ namespace LD49.Behaviour {
 			_renderer.color = new Color(1, 1, 1);
 
 			_timerText.gameObject.SetActive(false);
-		}
-
-		private void OnCollisionEnter2D(Collision2D other)
-		{
-			if (_isActive && other.gameObject.CompareTag("Platform"))
-			{
-				transform.parent = other.transform;
-			}
-		}
-
-		private void OnCollisionExit2D(Collision2D other)
-		{
-			if (other.gameObject.CompareTag("Platform"))
-			{
-				transform.parent = null;
-			}
 		}
 	}
 }
