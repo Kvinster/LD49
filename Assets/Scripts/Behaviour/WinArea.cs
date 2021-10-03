@@ -1,7 +1,6 @@
 using UnityEngine;
 
-using System;
-
+using LD49.Manager;
 using LD49.Utils;
 
 namespace LD49.Behaviour {
@@ -13,8 +12,6 @@ namespace LD49.Behaviour {
 		[Header("Dependencies")]
 		public SpriteRenderer SpriteRenderer;
 		public ColliderNotifier2D Notifier;
-
-		public event Action OnCompleted;
 
 		Player _player;
 
@@ -59,7 +56,7 @@ namespace LD49.Behaviour {
 			}
 			if ( !_isCompleted && Mathf.Approximately(value, 1f) ) {
 				_isCompleted = true;
-				OnCompleted?.Invoke();
+				LevelManager.Instance.WinLevel();
 			}
 		}
 	}

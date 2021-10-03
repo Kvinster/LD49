@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-using System;
+using LD49.Manager;
 
 using TMPro;
 
@@ -18,8 +18,6 @@ namespace LD49.Behaviour {
 
 		private float _explosionTime;
 		private bool  _isActive;
-
-		public event Action OnBlowUp;
 
 		void Start() {
 			ActiveBomb();
@@ -42,7 +40,7 @@ namespace LD49.Behaviour {
 		}
 
 		void BlowUp() {
-			OnBlowUp?.Invoke();
+			LevelManager.Instance.FailLevel();
 			Destroy(gameObject);
 		}
 
