@@ -24,6 +24,8 @@ namespace LD49.Behaviour {
 		float        _grabbedRbMass;
 		FixedJoint2D _grabJoint;
 
+		readonly Collider2D[] _colliders = new Collider2D[3];
+
 		public bool IsGrabbing       => _grabJoint;
 		public bool IsGrabbingObject => IsGrabbing && _grabJoint.connectedBody;
 		public bool IsGrabbingScene  => IsGrabbing && !_grabJoint.connectedBody;
@@ -63,20 +65,24 @@ namespace LD49.Behaviour {
 				if ( _grabJoint ) {
 					return;
 				}
-				var collider = Physics2D.OverlapCircle(Rigidbody.position, GrabRadius, GrabLayerMask);
-				if ( collider ) {
-					var bomb = collider.GetComponent<Bomb>();
-					if ( bomb ) {
-						bomb.BombDeactivated();
-						var rb = collider.attachedRigidbody;
-						Assert.IsTrue(rb);
-						_grabJoint               = gameObject.AddComponent<FixedJoint2D>();
-						_grabJoint.connectedBody = rb;
-						_grabbedRbMass           = rb.mass;
-						rb.gravityScale          = 0f;
-						rb.mass                  = 0f;
-					} else {
-						_grabJoint = gameObject.AddComponent<FixedJoint2D>();
+				var hits = Physics2D.OverlapCircleNonAlloc(Rigidbody.position, GrabRadius, _colliders, GrabLayerMask);
+				for ( var i = 0; i < hits; ++i ) {
+					var collider = _colliders[i];
+					if ( collider && !collider.isTrigger ) {
+						var bomb = collider.GetComponent<Bomb>();
+						if ( bomb ) {
+							bomb.BombDeactivated();
+							var rb = collider.attachedRigidbody;
+							Assert.IsTrue(rb);
+							_grabJoint               = gameObject.AddComponent<FixedJoint2D>();
+							_grabJoint.connectedBody = rb;
+							_grabbedRbMass           = rb.mass;
+							rb.gravityScale          = 0f;
+							rb.mass                  = 0f;
+						} else {
+							_grabJoint = gameObject.AddComponent<FixedJoint2D>();
+						}
+						break;
 					}
 				}
 			} else {
