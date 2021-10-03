@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-using System;
+using LD49.Manager;
 
 using TMPro;
 
@@ -15,8 +15,6 @@ namespace LD49.Behaviour {
 
 		private float _explosionTime;
 		private bool  _isActive;
-
-		public event Action OnBlowUp;
 
 		void Start() {
 			ActiveBomb();
@@ -39,7 +37,7 @@ namespace LD49.Behaviour {
 		}
 
 		void BlowUp() {
-			OnBlowUp?.Invoke();
+			LevelManager.Instance.FailLevel();
 			Destroy(gameObject);
 		}
 
@@ -55,7 +53,7 @@ namespace LD49.Behaviour {
 
 			_timerText.gameObject.SetActive(false);
 		}
-		
+
 		private void OnCollisionEnter2D(Collision2D other)
 		{
 			if (_isActive && other.gameObject.CompareTag("Platform"))
@@ -63,7 +61,7 @@ namespace LD49.Behaviour {
 				transform.parent = other.transform;
 			}
 		}
-		
+
 		private void OnCollisionExit2D(Collision2D other)
 		{
 			if (other.gameObject.CompareTag("Platform"))

@@ -5,42 +5,45 @@ using LD49.Behaviour.UI;
 
 namespace LD49.Manager {
 	public sealed class LevelManager : MonoBehaviour {
+		public static LevelManager Instance { get; private set; }
+
 		[Header("Dependencies")]
-		public Bomb Bomb;
-		public WinArea WinArea;
-		public FallTrigger FallTrigger;
-		[Space]
 		public WinWindow WinWindow;
 		public LoseWindow LoseWindow;
 
+		void OnEnable() {
+			if ( Instance ) {
+				Debug.LogError("Another instance of LevelManager already exists");
+				Destroy(gameObject);
+				return;
+			}
+			Instance = this;
+		}
+
 		void OnDisable() {
+			if ( Instance == this ) {
+				Instance = null;
+			} else {
+				Debug.LogError("Unexpected scenario");
+				return;
+			}
+
 			Time.timeScale = 1f;
-			Bomb.OnBlowUp       -= OnBombBlownUp;
-			WinArea.OnCompleted -= OnLevelCompleted;
-			FallTrigger.LevelFailed -= OnBombBlownUp;
 		}
 
 		void Start() {
-			if ( !Bomb ) {
-				Debug.LogError("No bomb on level", this);
-				return;
-			}
-			Bomb.OnBlowUp       += OnBombBlownUp;
-			WinArea.OnCompleted += OnLevelCompleted;
-			FallTrigger.LevelFailed += OnBombBlownUp;
-
 			WinWindow.Hide();
 			LoseWindow.Hide();
 		}
 
-		void OnBombBlownUp() {
-			Time.timeScale = 0f;
-			LoseWindow.Show();
-		}
-
-		void OnLevelCompleted() {
+		public void WinLevel() {
 			Time.timeScale = 0f;
 			WinWindow.Show();
+		}
+
+		public void FailLevel() {
+			Time.timeScale = 0f;
+			LoseWindow.Show();
 		}
 	}
 }

@@ -1,18 +1,13 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace LD49.Behaviour
-{
-    public class FallTrigger : MonoBehaviour
-    {
-        public event Action LevelFailed;
+using LD49.Manager;
 
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (other.CompareTag("Player") || other.CompareTag("Bomb"))
-            {
-                LevelFailed?.Invoke();
-            } 
-        }
-    }
+namespace LD49.Behaviour {
+	public class FallTrigger : MonoBehaviour {
+		private void OnTriggerEnter2D(Collider2D other) {
+			if ( other.CompareTag("Player") || other.CompareTag("Bomb") ) {
+				LevelManager.Instance.FailLevel();
+			}
+		}
+	}
 }
