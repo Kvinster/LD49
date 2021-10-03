@@ -57,21 +57,5 @@ namespace LD49.Behaviour {
 				_isJumping = false;
 			}
 		}
-
-		private void OnCollisionEnter2D(Collision2D other)
-		{
-			if (other.gameObject.CompareTag("Platform"))
-			{
-				transform.parent = other.transform;
-			}
-		}
-		
-		private void OnCollisionExit2D(Collision2D other)
-		{
-			if (other.gameObject.CompareTag("Platform"))
-			{
-				transform.parent = null;
-			}
-		}
 	}
 }
