@@ -79,7 +79,7 @@ namespace LD49.Behaviour {
 							_grabbedRbMass           = rb.mass;
 							rb.gravityScale          = 0f;
 							rb.mass                  = 0f;
-						} else {
+						} else if ( !collider.GetComponent<Rigidbody2D>() ) {
 							_grabJoint = gameObject.AddComponent<FixedJoint2D>();
 						}
 						break;
