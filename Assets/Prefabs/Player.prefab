@@ -203,15 +203,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3383ce2399204d5daf6fc3460a9991a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxGrabMoveDistance: 2.7
+  GrabbingSceneMovementSpeed: 7
   MovementForce: 10
-  GrabbingMovementForce: 5
-  JumpForce: 8
+  GrabbingMovementSpeed: 5
+  JumpForce: 4
   JumpTime: 0.35
+  NormalGravityScale: 2
   GroundCheckRadius: 0.05
   GroundCheckLayerMask:
     serializedVersion: 2
     m_Bits: 1
   GroundCheckPos: {fileID: 975543295569393907}
+  Follower: {fileID: 0}
   Rigidbody: {fileID: 975543294387370496}
   ArmTip: {fileID: 975543295126250089}
 --- !u!212 &975543294387370498
@@ -708,7 +712,7 @@ MonoBehaviour:
   GrabRadius: 0.1
   GrabLayerMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 513
   OriginPos: {fileID: 975543294387370501}
   Rigidbody: {fileID: 975543295126250084}
   ArmRigidbodies:

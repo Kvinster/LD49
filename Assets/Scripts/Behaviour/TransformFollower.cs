@@ -3,13 +3,16 @@ using UnityEngine;
 namespace LD49.Behaviour {
 	public sealed class TransformFollower : MonoBehaviour {
 		[Header("Parameters")]
+		public float FollowSpeed;
 		public bool MoveHorizontal;
 		public bool MoveVertical;
 		[Header("Dependencies")]
 		public Transform Target;
 
+		public bool IsEnabled { get; set; } = true;
+
 		void LateUpdate() {
-			if ( !Target ) {
+			if ( !Target || !IsEnabled ) {
 				return;
 			}
 			var targetPos = Target.position;
@@ -20,7 +23,11 @@ namespace LD49.Behaviour {
 			if ( !MoveVertical ) {
 				newPos.y = transform.position.y;
 			}
-			transform.position = newPos;
+			if ( Vector2.Distance(transform.position, newPos) < FollowSpeed * Time.deltaTime ) {
+				transform.position = newPos;
+			} else {
+				transform.Translate((newPos - transform.position).normalized * FollowSpeed * Time.deltaTime);
+			}
 		}
 	}
 }

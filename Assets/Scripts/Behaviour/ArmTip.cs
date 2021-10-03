@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.EventSystems;
 
 using LD49.Utils;
 
@@ -22,9 +24,9 @@ namespace LD49.Behaviour {
 		float        _grabbedRbMass;
 		FixedJoint2D _grabJoint;
 
-		readonly Collider2D[] _overlapChecks = new Collider2D[10];
-
-		public bool IsGrabbing => _grabJoint;
+		public bool IsGrabbing       => _grabJoint;
+		public bool IsGrabbingObject => IsGrabbing && _grabJoint.connectedBody;
+		public bool IsGrabbingScene  => IsGrabbing && !_grabJoint.connectedBody;
 
 		void Start() {
 			_camera = CameraUtility.Instance.Camera;
@@ -57,36 +59,36 @@ namespace LD49.Behaviour {
 		}
 
 		void TryGrab() {
-			if ( Input.GetMouseButton(0) ) {
+			if ( Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject() ) {
 				if ( _grabJoint ) {
 					return;
 				}
-				var overlap = Physics2D.OverlapCircleNonAlloc(Rigidbody.position, GrabRadius, _overlapChecks, GrabLayerMask);
-				for ( var i = 0; i < overlap; ++i ) {
-					var collider = _overlapChecks[i];
-					var bomb     = collider.GetComponent<Bomb>();
-					if ( !bomb ) {
-						continue;
-					}
-					bomb.BombDeactivated();
-					var rb       = collider.attachedRigidbody;
-					if ( rb ) {
+				var collider = Physics2D.OverlapCircle(Rigidbody.position, GrabRadius, GrabLayerMask);
+				if ( collider ) {
+					var bomb = collider.GetComponent<Bomb>();
+					if ( bomb ) {
+						bomb.BombDeactivated();
+						var rb = collider.attachedRigidbody;
+						Assert.IsTrue(rb);
 						_grabJoint               = gameObject.AddComponent<FixedJoint2D>();
 						_grabJoint.connectedBody = rb;
 						_grabbedRbMass           = rb.mass;
 						rb.gravityScale          = 0f;
 						rb.mass                  = 0f;
-						break;
+					} else {
+						_grabJoint = gameObject.AddComponent<FixedJoint2D>();
 					}
 				}
 			} else {
 				if ( _grabJoint ) {
-					var bomb = _grabJoint.connectedBody.GetComponent<Bomb>();
-					bomb.ActiveBomb();
-					var rb   = _grabJoint.connectedBody;
+					var rb = _grabJoint.connectedBody;
 					if ( rb ) {
 						rb.gravityScale = 1f;
 						rb.mass         = _grabbedRbMass;
+						var bomb = rb.GetComponent<Bomb>();
+						if ( bomb ) {
+							bomb.ActiveBomb();
+						}
 					}
 					Destroy(_grabJoint);
 				}
