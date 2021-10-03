@@ -16,6 +16,13 @@ namespace LD49.Behaviour
         
         private void OnTriggerEnter2D(Collider2D other)
         {
+            var bomb = other.gameObject.GetComponent<Bomb>();
+            
+            if (bomb != null && !bomb.IsActive)
+            {
+                return;
+            }
+            
             if(other.CompareTag("Player") || other.CompareTag("Bomb"))
             {
                 Tossing(other.gameObject);
