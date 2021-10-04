@@ -11,10 +11,22 @@ namespace LD49.Behaviour {
 
 		public bool IsEnabled { get; set; } = true;
 
+		void Start() {
+			if ( !Target ) {
+				Debug.LogError("TransformFollower.Start: no Target", this);
+				return;
+			}
+			UpdatePosition(true);
+		}
+
 		void LateUpdate() {
 			if ( !Target || !IsEnabled ) {
 				return;
 			}
+			UpdatePosition();
+		}
+
+		void UpdatePosition(bool force = false) {
 			var targetPos = Target.position;
 			var newPos    = new Vector3(targetPos.x, targetPos.y, transform.position.z);
 			if ( !MoveHorizontal ) {
@@ -23,10 +35,14 @@ namespace LD49.Behaviour {
 			if ( !MoveVertical ) {
 				newPos.y = transform.position.y;
 			}
-			if ( Vector2.Distance(transform.position, newPos) < FollowSpeed * Time.deltaTime ) {
+			if ( force ) {
 				transform.position = newPos;
 			} else {
-				transform.Translate((newPos - transform.position).normalized * FollowSpeed * Time.deltaTime);
+				if ( Vector2.Distance(transform.position, newPos) < FollowSpeed * Time.deltaTime ) {
+					transform.position = newPos;
+				} else {
+					transform.Translate((newPos - transform.position).normalized * FollowSpeed * Time.deltaTime);
+				}
 			}
 		}
 	}
