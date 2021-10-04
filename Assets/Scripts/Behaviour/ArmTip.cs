@@ -87,7 +87,9 @@ namespace LD49.Behaviour {
 						} else if ( !collider.GetComponent<Rigidbody2D>() ) {
 							_grabJoint = gameObject.AddComponent<FixedJoint2D>();
 						}
-						OnGrabbed?.Invoke();
+						if ( _grabJoint ) {
+							OnGrabbed?.Invoke();
+						}
 						break;
 					}
 				}
