@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using System;
+
 using LD49.Manager;
 
 using TMPro;
@@ -8,7 +10,7 @@ namespace LD49.Behaviour {
 	public class Bomb : MonoBehaviour
 	{
 		public bool IsActive => _isActive;
-		
+
 		[SerializeField]
 		private float _startExplosionTime;
 		[SerializeField]
@@ -18,6 +20,8 @@ namespace LD49.Behaviour {
 
 		private float _explosionTime;
 		private bool  _isActive;
+
+		public event Action OnBlownUp;
 
 		void Start() {
 			ActiveBomb();
@@ -41,6 +45,7 @@ namespace LD49.Behaviour {
 
 		void BlowUp() {
 			LevelManager.Instance.FailLevel();
+			OnBlownUp?.Invoke();
 			Destroy(gameObject);
 		}
 
