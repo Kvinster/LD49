@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 
+using System;
+
 using LD49.Utils;
 
 namespace LD49.Behaviour {
@@ -29,6 +31,9 @@ namespace LD49.Behaviour {
 		public bool IsGrabbing       => _grabJoint;
 		public bool IsGrabbingObject => IsGrabbing && _grabJoint.connectedBody;
 		public bool IsGrabbingScene  => IsGrabbing && !_grabJoint.connectedBody;
+
+		public event Action OnGrabbed;
+		public event Action OnReleased;
 
 		void Start() {
 			_camera = CameraUtility.Instance.Camera;
@@ -82,6 +87,7 @@ namespace LD49.Behaviour {
 						} else if ( !collider.GetComponent<Rigidbody2D>() ) {
 							_grabJoint = gameObject.AddComponent<FixedJoint2D>();
 						}
+						OnGrabbed?.Invoke();
 						break;
 					}
 				}
@@ -97,6 +103,7 @@ namespace LD49.Behaviour {
 						}
 					}
 					Destroy(_grabJoint);
+					OnReleased?.Invoke();
 				}
 			}
 		}
