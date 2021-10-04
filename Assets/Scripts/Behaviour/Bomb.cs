@@ -3,23 +3,27 @@
 using System;
 
 using LD49.Manager;
+using LD49.Utils;
 
 using TMPro;
 
 namespace LD49.Behaviour {
-	public class Bomb : MonoBehaviour
-	{
-		public bool IsActive => _isActive;
+	public sealed class Bomb : MonoBehaviour {
+		[ColorUsage(true, true)]
+		public Color NormalColor = Color.white;
+		[ColorUsage(true, true)]
+		public Color FinalColor = Color.white;
+		public HdrSprite SpriteRenderer;
 
 		[SerializeField]
 		private float _startExplosionTime;
 		[SerializeField]
 		private TMP_Text _timerText;
-		[SerializeField]
-		private SpriteRenderer _renderer;
 
 		private float _explosionTime;
 		private bool  _isActive;
+
+		public bool IsActive => _isActive;
 
 		public event Action OnBlownUp;
 
@@ -29,6 +33,10 @@ namespace LD49.Behaviour {
 
 		private void Update() {
 			if ( !_isActive ) {
+				if ( _explosionTime < _startExplosionTime ) {
+					_explosionTime = Mathf.Clamp(_explosionTime + Time.deltaTime, 0f, _startExplosionTime);
+					SetValue(1f - Mathf.Clamp01(_explosionTime / _startExplosionTime));
+				}
 				return;
 			}
 
@@ -39,14 +47,11 @@ namespace LD49.Behaviour {
 			}
 			_timerText.text = _explosionTime.ToString("F2");
 
-			var progress = _explosionTime / _startExplosionTime;
-			_renderer.color = new Color(1, progress, progress);
+			SetValue(1f - Mathf.Clamp01(_explosionTime / _startExplosionTime));
 		}
 
-		void BlowUp() {
-			LevelManager.Instance.FailLevel();
-			OnBlownUp?.Invoke();
-			Destroy(gameObject);
+		void SetValue(float value) {
+			SpriteRenderer.Color = Color.Lerp(NormalColor, FinalColor, Mathf.Clamp01(value));
 		}
 
 		public void ActiveBomb() {
@@ -56,10 +61,16 @@ namespace LD49.Behaviour {
 		}
 
 		public void BombDeactivated() {
-			_isActive       = false;
-			_renderer.color = new Color(1, 1, 1);
+			_isActive            = false;
+			SpriteRenderer.Color = NormalColor;
 
 			_timerText.gameObject.SetActive(false);
+		}
+
+		void BlowUp() {
+			LevelManager.Instance.FailLevel();
+			OnBlownUp?.Invoke();
+			Destroy(gameObject);
 		}
 	}
 }
