@@ -7,8 +7,6 @@ namespace LD49.Behaviour {
 	public sealed class WinArea : MonoBehaviour {
 		[Header("Parameters")]
 		public float WinTime = 3f;
-		public Color NormalColor = Color.white;
-		public Color WinColor    = Color.green;
 		[Header("Dependencies")]
 		public SpriteRenderer SpriteRenderer;
 		public ColliderNotifier2D Notifier;
@@ -22,6 +20,8 @@ namespace LD49.Behaviour {
 		void Start() {
 			Notifier.OnTriggerEnter += OnNotifierEnter;
 			Notifier.OnTriggerExit  += OnNotifierExit;
+
+			SetValue(0);
 		}
 
 		void Update() {
@@ -52,7 +52,7 @@ namespace LD49.Behaviour {
 		void SetValue(float value) {
 			value = Mathf.Clamp01(value);
 			if ( SpriteRenderer ) {
-				SpriteRenderer.color = Color.Lerp(NormalColor, WinColor, value);
+				SpriteRenderer.size = new Vector2(value, SpriteRenderer.size.y);
 			}
 			if ( !_isCompleted && Mathf.Approximately(value, 1f) ) {
 				_isCompleted = true;
