@@ -14,10 +14,16 @@ namespace LD49.Behaviour {
 		public float     Tolerance;
 		public float     GrabRadius;
 		public LayerMask GrabLayerMask;
+		[Space]
+		public float HalfClawNormalAngle;
+		public float HalfClawGrabAngle;
 		[Header("Dependencies")]
 		public Transform OriginPos;
 		public Rigidbody2D   Rigidbody;
 		public Rigidbody2D[] ArmRigidbodies;
+		[Space]
+		public Transform HalfClawTransform;
+		public Transform InvertHalfClawTransform;
 
 		Camera _camera;
 
@@ -32,11 +38,11 @@ namespace LD49.Behaviour {
 		public bool IsGrabbingObject => IsGrabbing && _grabJoint.connectedBody;
 		public bool IsGrabbingScene  => IsGrabbing && !_grabJoint.connectedBody;
 
-		public event Action OnGrabbed;
-		public event Action OnReleased;
+		public event Action OnClawClosed;
 
 		void Start() {
 			_camera = CameraUtility.Instance.Camera;
+			SetClawValue(0f);
 		}
 
 		void Update() {
@@ -67,6 +73,10 @@ namespace LD49.Behaviour {
 
 		void TryGrab() {
 			if ( Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject() ) {
+				SetClawValue(1f);
+				if ( Input.GetMouseButtonDown(0) ) {
+					OnClawClosed?.Invoke();
+				}
 				if ( _grabJoint ) {
 					return;
 				}
@@ -87,9 +97,6 @@ namespace LD49.Behaviour {
 						} else if ( !collider.GetComponent<Rigidbody2D>() ) {
 							_grabJoint = gameObject.AddComponent<FixedJoint2D>();
 						}
-						if ( _grabJoint ) {
-							OnGrabbed?.Invoke();
-						}
 						break;
 					}
 				}
@@ -105,9 +112,17 @@ namespace LD49.Behaviour {
 						}
 					}
 					Destroy(_grabJoint);
-					OnReleased?.Invoke();
 				}
+				SetClawValue(0f);
 			}
+		}
+
+		// 0 – normal, 1 – grab
+		void SetClawValue(float value) {
+			value                      = Mathf.Clamp01(value);
+			var angle = Mathf.Lerp(HalfClawNormalAngle, HalfClawGrabAngle, value);
+			HalfClawTransform.localRotation       = Quaternion.Euler(0f, 0f, angle);
+			InvertHalfClawTransform.localRotation = Quaternion.Euler(0f, 0f, -angle);
 		}
 	}
 }

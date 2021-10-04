@@ -4,19 +4,13 @@ namespace LD49.Behaviour.Sound {
 	public sealed class ArmTipSoundPlayer : MonoBehaviour {
 		public ArmTip            ArmTip;
 		public RandomSoundPlayer GrabSoundPlayer;
-		public RandomSoundPlayer ReleaseSoundPlayer;
 
 		void Start() {
-			ArmTip.OnGrabbed  += OnArmGrabbed;
-			ArmTip.OnReleased += OnArmReleased;
+			ArmTip.OnClawClosed += OnClawClosed;
 		}
 
-		void OnArmGrabbed() {
+		void OnClawClosed() {
 			GrabSoundPlayer.Play();
-		}
-
-		void OnArmReleased() {
-			ReleaseSoundPlayer.Play();
 		}
 	}
 }
