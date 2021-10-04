@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Thorns: {fileID: 3197793082682067127}
-  ActivatedSoundPlayer: {fileID: 0}
+  ActivatedSoundPlayer: {fileID: 2624203066213731717}
 --- !u!114 &2624203066213731717
 MonoBehaviour:
   m_ObjectHideFlags: 0
